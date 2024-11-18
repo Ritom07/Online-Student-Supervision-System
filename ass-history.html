@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Assignment History</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #6EE7B7, #3B82F6); /* Gradient background */
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-teal-300 to-blue-500">
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Assignment History</h1>
+      <nav>
+        <a href="submit-assignment.html" class="bg-white text-blue-600 px-6 py-2 rounded-full shadow-md hover:bg-blue-50 transition duration-300">
+          Submit Assignment
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto mt-10 px-4">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg space-y-6">
+      <h3 class="text-xl font-semibold text-blue-600">Your Assignment History</h3>
+
+      <!-- Assignment History Table -->
+      <table class="w-full table-auto">
+        <thead class="bg-blue-600 text-white">
+          <tr>
+            <th class="px-4 py-2 text-left">Assignment Title</th>
+            <th class="px-4 py-2 text-left">Subject</th>
+            <th class="px-4 py-2 text-left">Submission Date</th>
+            <th class="px-4 py-2 text-left">Comments</th>
+            <th class="px-4 py-2 text-left">File</th>
+          </tr>
+        </thead>
+        <tbody id="history-table-body">
+          <!-- Data will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white p-4 mt-10">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 Online Student Supervision System</p>
+    </div>
+  </footer>
+
+  <script>
+    // Fetch assignments from localStorage
+    document.addEventListener('DOMContentLoaded', function () {
+      const assignments = JSON.parse(localStorage.getItem('assignments')) || [];
+      const tableBody = document.getElementById('history-table-body');
+
+      // Loop through assignments and create a table row for each
+      assignments.forEach(function (assignment) {
+        const row = document.createElement('tr');
+                                        //<td class="px-4 py-2 border-b">${assignment.dueDate}</td>
+        row.innerHTML = `
+          <td class="px-4 py-2 border-b">${assignment.title}</td>
+          <td class="px-4 py-2 border-b">${assignment.subject}</td>
+          <td class="px-4 py-2 border-b">${assignment.submissionDate}</td>
+          <td class="px-4 py-2 border-b">${assignment.comments || 'No comments'}</td>
+          <td class="px-4 py-2 border-b">${assignment.file || 'No file uploaded'}</td>
+        `;
+        
+        tableBody.appendChild(row);
+      });
+    });
+  </script>
+</body>
+</html>

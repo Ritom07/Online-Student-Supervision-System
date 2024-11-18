@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Online Student Supervision System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Function to filter resources by department
+        function filterResources() {
+            const department = document.getElementById("departmentSelect").value;
+            const resourceCards = document.querySelectorAll(".resource-card");
+
+            resourceCards.forEach(card => {
+                const resourceDepartment = card.getAttribute("data-department");
+                if (department === "all" || department === resourceDepartment) {
+                    card.classList.remove("hidden");
+                } else {
+                    card.classList.add("hidden");
+                }
+            });
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Navigation Bar (Simplified) -->
+    <header class="bg-green-600 text-white shadow-md p-4">
+        <nav class="container mx-auto flex justify-between items-center">
+            <div class="text-lg font-bold">Student Supervision System</div>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="hover:text-gray-200">Back to Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Resources Page Content -->
+    <main class="container mx-auto my-8 space-y-8">
+
+        <!-- Hero Section -->
+        <section class="bg-green-600 text-white rounded-lg p-8 mb-8">
+            <h1 class="text-4xl font-semibold">Explore Your Learning Resources</h1>
+            <p class="text-xl mt-4">Find study materials, notes, and references to help you succeed in your courses.</p>
+        </section>
+
+        <!-- Department Filter -->
+        <section class="mb-6">
+            <label for="departmentSelect" class="text-lg font-semibold text-gray-700">Filter by Department</label>
+            <select id="departmentSelect" class="mt-2 p-2 border rounded" onchange="filterResources()">
+                <option value="all">All Departments</option>
+                <option value="cs">Computer Science</option>
+                <option value="se">Electrical Engineering</option>
+                <option value="it">Information Technology</option>
+                <option value="ec">Electronics and Communication</option>
+            </select>
+        </section>
+
+        <!-- Resources List Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="resource-card bg-white rounded-lg shadow-lg overflow-hidden" data-department="cs">
+                <img src="java.jpg" alt="Java Programming" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-3">Introduction to Java Programming</h3>
+                    <p class="text-gray-700 mb-4">A beginner's guide to understanding Java programming concepts and practices.</p>
+                    <a href="resource1.pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Resource</a>
+                </div>
+            </div>
+
+            <div class="resource-card bg-white rounded-lg shadow-lg overflow-hidden" data-department="se">
+                <img src="ds.jpg" alt="Data Structures" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-3">Advanced Data Structures</h3>
+                    <p class="text-gray-700 mb-4">A comprehensive guide on advanced data structures like trees, graphs, and heaps.</p>
+                    <a href="resource2.pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Resource</a>
+                </div>
+            </div>
+
+            <div class="resource-card bg-white rounded-lg shadow-lg overflow-hidden" data-department="it">
+                <img src="se.jpg" alt="Software Engineering" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-3">Software Engineering Basics</h3>
+                    <p class="text-gray-700 mb-4">An overview of the essential concepts and practices in software engineering.</p>
+                    <a href="resource3.pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Resource</a>
+                </div>
+            </div>
+
+            <div class="resource-card bg-white rounded-lg shadow-lg overflow-hidden" data-department="ec">
+                <img src="dbms.png" alt="Database Management" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-3">Database Management Systems</h3>
+                    <p class="text-gray-700 mb-4">A resource on understanding database management systems and SQL queries.</p>
+                    <a href="resource4.pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Resource</a>
+                </div>
+            </div>
+
+            <div class="resource-card bg-white rounded-lg shadow-lg overflow-hidden" data-department="cs">
+                <img src="algo.png" alt="Algorithms" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-3">Algorithms and Problem Solving</h3>
+                    <p class="text-gray-700 mb-4">Learn about key algorithms and problem-solving strategies in computer science.</p>
+                    <a href="resource5.pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Resource</a>
+                </div>
+            </div>
+
+            <div class="resource-card bg-white rounded-lg shadow-lg overflow-hidden" data-department="it">
+                <img src="web_D.png" alt="Web Development" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold text-green-600 mb-3">Web Development Essentials</h3>
+                    <p class="text-gray-700 mb-4">A complete guide for mastering web development, including front-end and back-end topics.</p>
+                    <a href="resource6.pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Download Resource</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-4 mt-8">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2024 Online Student Supervision System</p>
+                <p>Contact Us | Privacy Policy | Terms of Service</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="scripts/app.js"></script>
+</body>
+
+</html>

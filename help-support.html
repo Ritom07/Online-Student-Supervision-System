@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - Online Student Supervision System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Navigation Bar (Simplified) -->
+    <header class="bg-green-600 text-white shadow-md p-4">
+        <nav class="container mx-auto flex justify-between items-center">
+            <div class="text-lg font-bold">Student Supervision System</div>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="hover:text-gray-200">Back to Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Help & Support Form Page Content -->
+    <main class="container mx-auto my-8 space-y-8">
+
+        <!-- Hero Section -->
+        <section class="bg-green-600 text-white rounded-lg shadow-lg p-6">
+            <h1 class="text-3xl font-bold mb-4">Help & Support</h1>
+            <p class="text-lg">Please fill in the form below with the details of the issue you're facing. Our support team will get back to you shortly.</p>
+        </section>
+
+        <!-- Help & Support Form -->
+        <section class="bg-white rounded-lg shadow-lg p-6">
+
+            <form id="supportForm" action="#" method="POST" class="space-y-6">
+
+                <!-- Full Name -->
+                <div>
+                    <label for="fullName" class="block text-sm font-semibold text-gray-700">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <!-- Student ID -->
+                <div>
+                    <label for="studentID" class="block text-sm font-semibold text-gray-700">Student ID</label>
+                    <input type="text" id="studentID" name="studentID" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <!-- Department Selection -->
+                <div>
+                    <label for="department" class="block text-sm font-semibold text-gray-700">Department</label>
+                    <select id="department" name="department" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="mechanical">Mechanical</option>
+                        <option value="civil">Civil</option>
+                        <option value="electrical">Electrical</option>
+                        <!-- Add more departments as needed -->
+                    </select>
+                </div>
+
+                <!-- Issue Type Selection -->
+                <div>
+                    <label for="issueType" class="block text-sm font-semibold text-gray-700">Issue Type</label>
+                    <select id="issueType" name="issueType" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="" disabled selected>Select Issue Type</option>
+                        <option value="technical">Technical Issue</option>
+                        <option value="account">Account Issues</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Issue Description -->
+                <div>
+                    <label for="description" class="block text-sm font-semibold text-gray-700">Describe the Issue</label>
+                    <textarea id="description" name="description" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        rows="6" placeholder="Please provide detailed information about the issue you are facing."></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit"
+                        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 w-full">Submit
+                        Issue</button>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Online Student Supervision System</p>
+            <p>Contact Us | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Get the form element
+        const form = document.getElementById("supportForm");
+
+        // Add event listener to form submit
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Show an alert to confirm submission
+            alert("Your issue has been submitted successfully!");
+
+            // Reset the form fields
+            form.reset();
+        });
+    </script>
+
+</body>
+
+</html>

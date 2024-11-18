@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>View Assignments</title>
+  <style>
+    /* Adding a soft background color and text-shadow for titles */
+    body {
+      background-color: #f7fafc;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hover effect for assignment cards */
+    .hover-scale {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-scale:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Background for filters */
+    .filter-container {
+      background-color: #e5e7eb;
+      /* Light gray for filters */
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Improved button styles */
+    .btn-primary {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #45a049;
+    }
+
+    .assignment-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .assignment-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Color for assignment status labels */
+    .status-pending {
+      color: #FF9800;
+    }
+
+    .status-completed {
+      color: #4CAF50;
+    }
+
+    .status-overdue {
+      color: #F44336;
+    }
+
+    /* Styling for footer */
+    footer {
+      background-color: #1a202c;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .assignment-card p {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="bg-blue-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">View Assignments</h1>
+      <nav>
+        <a href="index.html" class="bg-white text-blue-600 px-4 py-2 rounded shadow hover:bg-blue-100">
+          Back to Dashboard
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto mt-10">
+
+    <!-- Title -->
+    <h2 class="text-3xl font-semibold text-center text-gray-700 mb-6">All Assignments</h2>
+
+    <!-- Filter Section -->
+    <div class="filter-container mb-6">
+      <label for="filter-status" class="mr-2">Filter by Status:</label>
+      <select id="filter-status" class="px-4 py-2 rounded border border-gray-300 focus:outline-none">
+        <option value="all">All</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+      </select>
+
+      <label for="filter-subject" class="ml-4 mr-2">Filter by Subject:</label>
+      <select id="filter-subject" class="px-4 py-2 rounded border border-gray-300 focus:outline-none">
+        <option value="all">All</option>
+        <option value="java">Java Programming</option>
+        <option value="data-structures">Data Structures</option>
+        <option value="operating-systems">Operating Systems</option>
+        <option value="ai">Artificial Intelligence</option>
+        <option value="web-dev">Web Development</option>
+        <option value="networking">Networking</option>
+        <option value="lab">Lab Work</option>
+      </select>
+
+      <label for="filter-due" class="ml-4 mr-2">Filter by Due Date:</label>
+      <input type="date" id="filter-due" class="px-4 py-2 rounded border border-gray-300 focus:outline-none">
+    </div>
+
+    <!-- Assignments Section -->
+    <div id="assignments-container">
+
+      <!-- Java Programming Section -->
+      <div id="java" class="subject-section mb-8" data-subject="java">
+        <h3 class="text-2xl font-semibold text-blue-500 mb-4">Java Programming</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="assignment-card bg-white p-6 rounded shadow hover-scale" data-status="pending"
+            data-due="2024-11-30">
+            <h3 class="text-lg font-semibold mb-2">Assignment 1: Java Basics</h3>
+            <p class="text-gray-600">Due Date: 2024-11-30</p>
+            <p class="text-gray-600">Status: <span class="status-pending">Pending</span></p>
+            <button onclick="viewAssignmentDetails(1)" class="btn-primary mt-4">
+              View Details
+            </button>
+          </div>
+
+          <div class="assignment-card bg-white p-6 rounded shadow hover-scale" data-status="completed"
+            data-due="2024-12-10">
+            <h3 class="text-lg font-semibold mb-2">Assignment 2: Java Advanced Concepts</h3>
+            <p class="text-gray-600">Due Date: 2024-12-10</p>
+            <p class="text-gray-600">Status: <span class="status-completed">Completed</span></p>
+            <button onclick="viewAssignmentDetails(2)" class="btn-primary mt-4">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artificial Intelligence Section -->
+      <div id="ai" class="subject-section mb-8" data-subject="ai">
+        <h3 class="text-2xl font-semibold text-blue-500 mb-4">Artificial Intelligence</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="assignment-card bg-white p-6 rounded shadow hover-scale" data-status="pending"
+            data-due="2024-12-05">
+            <h3 class="text-lg font-semibold mb-2">Assignment 1: Introduction to AI</h3>
+            <p class="text-gray-600">Due Date: 2024-12-05</p>
+            <p class="text-gray-600">Status: <span class="status-pending">Pending</span></p>
+            <button onclick="viewAssignmentDetails(3)" class="btn-primary mt-4">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Web Development Section -->
+      <div id="web-dev" class="subject-section mb-8" data-subject="web-dev">
+        <h3 class="text-2xl font-semibold text-blue-500 mb-4">Web Development</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="assignment-card bg-white p-6 rounded shadow hover-scale" data-status="completed"
+            data-due="2024-11-20">
+            <h3 class="text-lg font-semibold mb-2">Assignment 1: HTML and CSS Basics</h3>
+            <p class="text-gray-600">Due Date: 2024-11-20</p>
+            <p class="text-gray-600">Status: <span class="status-completed">Completed</span></p>
+            <button onclick="viewAssignmentDetails(4)" class="btn-primary mt-4">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Networking Section -->
+      <div id="networking" class="subject-section mb-8" data-subject="networking">
+        <h3 class="text-2xl font-semibold text-blue-500 mb-4">Networking</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="assignment-card bg-white p-6 rounded shadow hover-scale" data-status="overdue"
+            data-due="2024-11-15">
+            <h3 class="text-lg font-semibold mb-2">Assignment 1: Networking Protocols</h3>
+            <p class="text-gray-600">Due Date: 2024-11-15</p>
+            <p class="text-gray-600">Status: <span class="status-overdue">Overdue</span></p>
+            <button onclick="viewAssignmentDetails(5)" class="btn-primary mt-4">
+              View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Online Student Supervision System</p>
+  </footer>
+
+  <script>
+    // Wait for the DOM to be ready before running the script
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // Get the filter elements
+      const filterStatus = document.getElementById('filter-status');
+      const filterSubject = document.getElementById('filter-subject');
+      const filterDueDate = document.getElementById('filter-due');
+      const assignmentsContainer = document.getElementById('assignments-container');
+
+      // Function to filter assignments
+      function filterAssignments() {
+        const statusFilter = filterStatus.value;
+        const subjectFilter = filterSubject.value;
+        const dueDateFilter = filterDueDate.value;
+
+        // Get all the subject sections
+        const subjectSections = assignmentsContainer.querySelectorAll('.subject-section');
+
+        subjectSections.forEach(section => {
+          const assignments = section.querySelectorAll('.assignment-card');
+          const subject = section.getAttribute('data-subject');
+
+          let subjectMatch = subjectFilter === 'all' || subject === subjectFilter;
+
+          assignments.forEach(assignment => {
+            const assignmentStatus = assignment.getAttribute('data-status');
+            const assignmentDueDate = assignment.getAttribute('data-due');
+            const assignmentDate = new Date(assignmentDueDate);
+            const filterDate = dueDateFilter ? new Date(dueDateFilter) : null;
+
+            let statusMatch = statusFilter === 'all' || assignmentStatus === statusFilter;
+            let dueDateMatch = !dueDateFilter || assignmentDate <= filterDate;
+
+            // Hide or show the assignment based on filter criteria
+            if (subjectMatch && statusMatch && dueDateMatch) {
+              assignment.style.display = 'block';  // Show the assignment
+            } else {
+              assignment.style.display = 'none';  // Hide the assignment
+            }
+          });
+        });
+      }
+
+      // Event listeners for filters
+      filterStatus.addEventListener('change', filterAssignments);
+      filterSubject.addEventListener('change', filterAssignments);
+      filterDueDate.addEventListener('change', filterAssignments);
+
+      // Initial filter run to load assignments based on default selections
+      filterAssignments();
+
+    });
+
+  </script>
+
+</body>
+</html>

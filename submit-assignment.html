@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Submit Assignment</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #6EE7B7, #3B82F6);
+            /* Gradient background */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-teal-300 to-blue-500">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Submit Assignment</h1>
+            <nav>
+                <a href="ass-history.html"
+                    class="bg-white text-blue-600 px-6 py-2 rounded-full shadow-md hover:bg-blue-50 transition duration-300">
+                    View Assignment History
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-10 px-4">
+        <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg space-y-6">
+            <h3 class="text-xl font-semibold text-blue-600">Submit Your Assignment</h3>
+
+            <!-- Form for submitting assignment -->
+            <form id="submit-assignment-form" class="space-y-6">
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                    <select id="subject" name="subject"
+                        class="block w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        required>
+                        <option value="AI">AI</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Networking">Networking</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="assignment-title" class="block text-sm font-medium text-gray-700">Assignment
+                        Title</label>
+                    <input type="text" id="assignment-title" name="title"
+                        class="block w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Enter the assignment title" required>
+                </div>
+
+
+                <div>
+                    <label for="file-upload" class="block text-sm font-medium text-gray-700">Upload File</label>
+                    <input type="file" id="file-upload" name="file"
+                        class="block w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        accept=".pdf,.doc,.docx,.txt,.ppt,.pptx">
+                </div>
+                <div>
+                    <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
+                    <textarea id="comments" name="comments"
+                        class="block w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Any additional comments or instructions?" rows="4"></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                    Submit Assignment
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-10">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Online Student Supervision System</p>
+        </div>
+    </footer>
+
+    <script>
+        // Handle assignment submission
+        document.getElementById('submit-assignment-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get form data
+            const title = document.getElementById('assignment-title').value;
+            const subject = document.getElementById('subject').value;
+            const comments = document.getElementById('comments').value;
+            const file = document.getElementById('file-upload').files[0];
+
+            // Create assignment object
+            const assignment = {
+                title: title,
+                subject: subject,
+                comments: comments,
+                file: file ? file.name : 'No file uploaded',
+                submissionDate: new Date().toLocaleDateString() // Store current date as submission date
+            };
+
+            // Retrieve existing assignments from localStorage, or create an empty array if none exist
+            const assignments = JSON.parse(localStorage.getItem('assignments')) || [];
+
+            // Add new assignment to the list
+            assignments.push(assignment);
+
+            // Save updated assignments array back to localStorage
+            localStorage.setItem('assignments', JSON.stringify(assignments));
+
+            // Show confirmation message
+            alert('Assignment submitted successfully!');
+
+            // Reset the form
+            document.getElementById('submit-assignment-form').reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Progress Report</title>
+    <style>
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-200 via-purple-200 to-pink-300">
+
+    <!-- Navigation Bar -->
+    <header class="bg-blue-700 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold">Progress Report</h1>
+            <nav>
+                <a href="index.html" class="bg-white text-blue-700 px-6 py-2 rounded shadow hover:bg-blue-100">
+                    Back to Dashboard
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-12 p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-blue-800 mb-6">Your Progress Report</h2>
+
+        <!-- Options for Progress Report -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- View Progress Report -->
+            <div class="hover-scale bg-blue-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="showProgressReport()">
+                <h3 class="text-2xl font-semibold">View Progress Report</h3>
+                <p>Click here to view your progress report with all the details.</p>
+            </div>
+
+            <!-- Download Reports -->
+            <div class="hover-scale bg-green-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="downloadReport()">
+                <h3 class="text-2xl font-semibold">Download Reports</h3>
+                <p>Click here to download your progress report as a text file.</p>
+            </div>
+
+            <!-- Report Analysis -->
+            <div class="hover-scale bg-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="showReportAnalysis()">
+                <h3 class="text-2xl font-semibold">Report Analysis</h3>
+                <p>Click here to view graphical analysis of your progress report.</p>
+            </div>
+        </div>
+
+        <!-- View Progress Report Section -->
+        <div id="progress-report" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-blue-800 mb-4">Your Progress Report</h3>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+                <table class="min-w-full text-left table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 bg-blue-100">Subject</th>
+                            <th class="px-4 py-2 bg-blue-100">Grade</th>
+                            <th class="px-4 py-2 bg-blue-100">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2">Programming in C</td>
+                            <td class="px-4 py-2">A</td>
+                            <td class="px-4 py-2">92%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Data Structures</td>
+                            <td class="px-4 py-2">B+</td>
+                            <td class="px-4 py-2">85%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Algorithms</td>
+                            <td class="px-4 py-2">A</td>
+                            <td class="px-4 py-2">88%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Database Management Systems</td>
+                            <td class="px-4 py-2">A</td>
+                            <td class="px-4 py-2">91%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Operating Systems</td>
+                            <td class="px-4 py-2">B</td>
+                            <td class="px-4 py-2">80%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Report Analysis Section -->
+        <div id="report-analysis" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-blue-800 mb-4">Report Analysis (Chart)</h3>
+            <canvas id="progressChart" class="w-full h-96"></canvas>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 text-white p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Online Student Supervision System</p>
+        </div>
+    </footer>
+
+    <script>
+        // Flag to prevent multiple chart instances
+        let chartInstance = null;
+
+        // Function to display progress report
+        function showProgressReport() {
+            document.getElementById('progress-report').classList.remove('hidden');
+            document.getElementById('report-analysis').classList.add('hidden');
+        }
+
+        // Function to download the progress report
+        function downloadReport() {
+            const reportData = `
+Subject: Programming in C, Grade: A, Percentage: 92%
+Subject: Data Structures, Grade: B+, Percentage: 85%
+Subject: Algorithms, Grade: A-, Percentage: 88%
+Subject: Database Management Systems, Grade: A, Percentage: 91%
+Subject: Operating Systems, Grade: B, Percentage: 80%
+            `;
+            const element = document.createElement('a');
+            const file = new Blob([reportData], { type: 'text/plain' });
+            element.href = URL.createObjectURL(file);
+            element.download = 'progress_report.txt';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Function to show report analysis (chart)
+        function showReportAnalysis() {
+            document.getElementById('report-analysis').classList.remove('hidden');
+            document.getElementById('progress-report').classList.add('hidden');
+
+            const ctx = document.getElementById('progressChart').getContext('2d');
+
+            // Destroy any previous chart instance
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Programming in C', 'Data Structures', 'Algorithms', 'DBMS', 'Operating Systems'],
+                    datasets: [{
+                        label: 'Grade Percentage',
+                        data: [92, 85, 88, 91, 80],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 10
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

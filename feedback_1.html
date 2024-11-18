@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Feedback Management</title>
+    <style>
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-yellow-200 via-orange-200 to-red-300">
+
+    <!-- Navigation Bar -->
+    <header class="bg-orange-700 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold">Feedback Management</h1>
+            <nav>
+                <a href="index.html" class="bg-white text-orange-700 px-6 py-2 rounded shadow hover:bg-orange-100">
+                    Back to Dashboard
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-12 p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-orange-800 mb-6">Manage Your Feedback</h2>
+
+        <!-- Options for Feedback -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Submit Feedback -->
+            <div class="hover-scale bg-orange-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="showSubmitFeedback()">
+                <h3 class="text-2xl font-semibold">Submit Feedback</h3>
+                <p>Click here to submit your feedback for courses or subjects.</p>
+            </div>
+
+            <!-- View Feedback -->
+            <div class="hover-scale bg-green-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="showViewFeedback()">
+                <h3 class="text-2xl font-semibold">View Feedback</h3>
+                <p>Click here to view all submitted feedback details.</p>
+            </div>
+
+            <!-- Analyze Feedback -->
+            <div class="hover-scale bg-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="showAnalyzeFeedback()">
+                <h3 class="text-2xl font-semibold">Analyze Feedback</h3>
+                <p>Click here to view graphical analysis of feedback.</p>
+            </div>
+        </div>
+
+        <!-- Submit Feedback Section -->
+        <!-- Submit Feedback Section -->
+        <div id="submit-feedback" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-orange-800 mb-4">Submit Feedback</h3>
+            <form id="feedback-form" class="bg-gray-100 p-6 rounded-lg shadow-lg">
+                <label class="block mb-4">
+                    <span class="text-gray-700">Select Subject:</span>
+                    <select id="feedback-course" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                        <option value="" disabled selected>Select a subject</option>
+                        <option value="Programming in C">Programming in C</option>
+                        <option value="Data Structures">Data Structures</option>
+                        <option value="Algorithms">Algorithms</option>
+                        <option value="Database Management Systems">Database Management Systems</option>
+                        <option value="Operating Systems">Operating Systems</option>
+                    </select>
+                </label>
+                <label class="block mb-4">
+                    <span class="text-gray-700">Feedback:</span>
+                    <textarea id="feedback-text" class="mt-1 block w-full p-2 border border-gray-300 rounded" rows="4"
+                        placeholder="Enter your feedback"></textarea>
+                </label>
+                <button type="button" onclick="submitFeedback()"
+                    class="bg-orange-700 text-white px-4 py-2 rounded hover:bg-orange-800">
+                    Submit
+                </button>
+            </form>
+        </div>
+
+
+        <!-- View Feedback Section -->
+        <div id="view-feedback" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-orange-800 mb-4">View Feedback</h3>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+                <ul id="feedback-list">
+                    <!-- Feedback will be dynamically inserted here -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Analyze Feedback Section -->
+        <div id="analyze-feedback" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-orange-800 mb-4">Feedback Analysis</h3>
+            <canvas id="feedbackChart" class="w-full h-96"></canvas>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-orange-700 text-white p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Online Student Supervision System</p>
+        </div>
+    </footer>
+
+    <script>
+        const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+        function showSubmitFeedback() {
+            document.getElementById('submit-feedback').classList.remove('hidden');
+            document.getElementById('view-feedback').classList.add('hidden');
+            document.getElementById('analyze-feedback').classList.add('hidden');
+        }
+
+        function showViewFeedback() {
+            document.getElementById('submit-feedback').classList.add('hidden');
+            document.getElementById('view-feedback').classList.remove('hidden');
+            document.getElementById('analyze-feedback').classList.add('hidden');
+
+            const feedbackList = document.getElementById('feedback-list');
+            feedbackList.innerHTML = '';
+            feedbacks.forEach((feedback, index) => {
+                const listItem = `
+                    <li class="mb-4 p-4 bg-white border rounded shadow">
+                        <strong>${feedback.course}:</strong> ${feedback.text}
+                    </li>
+                `;
+                feedbackList.innerHTML += listItem;
+            });
+        }
+
+        function showAnalyzeFeedback() {
+            document.getElementById('submit-feedback').classList.add('hidden');
+            document.getElementById('view-feedback').classList.add('hidden');
+            document.getElementById('analyze-feedback').classList.remove('hidden');
+
+            const ctx = document.getElementById('feedbackChart').getContext('2d');
+            const feedbackCounts = feedbacks.reduce((acc, curr) => {
+                acc[curr.course] = (acc[curr.course] || 0) + 1;
+                return acc;
+            }, {});
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(feedbackCounts),
+                    datasets: [{
+                        label: '# of Feedback',
+                        data: Object.values(feedbackCounts),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+        }
+
+        function submitFeedback() {
+            const course = document.getElementById('feedback-course').value;
+            const text = document.getElementById('feedback-text').value;
+
+            if (!course) {
+                alert('Please select a subject!');
+                return;
+            }
+
+            if (!text) {
+                alert('Please provide your feedback!');
+                return;
+            }
+
+            feedbacks.push({ course, text });
+            localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+            alert('Feedback submitted successfully!');
+            document.getElementById('feedback-form').reset();
+        }
+
+    </script>
+
+</body>
+
+</html>

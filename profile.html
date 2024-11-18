@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Manage Profile</title>
+    <style>
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-teal-200 via-blue-200 to-purple-300">
+    <!-- Navigation Bar -->
+    <header class="bg-blue-700 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold">Manage Profile</h1>
+            <nav>
+                <a href="index.html" class="bg-white text-blue-700 px-6 py-2 rounded shadow hover:bg-blue-100">
+                    Back to Dashboard
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-12 p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-blue-800 mb-6">Profile Management</h2>
+
+        <!-- Manage Profile Options -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- View Profile -->
+            <div class="hover-scale bg-blue-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="viewProfile()">
+                <h3 class="text-2xl font-semibold">View Profile</h3>
+                <p>Click here to view your profile details.</p>
+            </div>
+
+            <!-- Update Profile -->
+            <div class="hover-scale bg-green-700 text-white p-6 rounded-lg shadow-lg cursor-pointer"
+                onclick="showUpdateProfileForm()">
+                <h3 class="text-2xl font-semibold">Update Profile</h3>
+                <p>Click here to update your profile details.</p>
+            </div>
+        </div>
+
+        <!-- View Profile Section -->
+        <div id="view-profile" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-blue-800 mb-4">Your Profile Details</h3>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+                <p><strong>Name:</strong> <span id="profile-name">John Doe</span></p>
+                <p><strong>Email:</strong> <span id="profile-email">johndoe@example.com</span></p>
+                <p><strong>Student ID:</strong> 221300120951</p>
+                <p><strong>Department:</strong> <span id="profile-department">Computer Science</span></p>
+            </div>
+        </div>
+
+        <!-- Update Profile Section -->
+        <div id="update-profile" class="mt-8 hidden">
+            <h3 class="text-xl font-bold text-blue-800 mb-4">Update Your Profile</h3>
+            <form id="profile-update-form" class="bg-gray-100 p-6 rounded-lg shadow-lg">
+                <div class="mb-4">
+                    <label for="name" class="block font-semibold text-gray-700">Name:</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 border rounded"
+                        placeholder="Enter your name">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block font-semibold text-gray-700">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 border rounded"
+                        placeholder="Enter your email">
+                </div>
+                <div class="mb-4">
+                    <label for="department" class="block font-semibold text-gray-700">Department:</label>
+                    <select id="department" name="department" class="w-full p-2 border rounded">
+                        <option value="CSE">Computer Science</option>
+                        <option value="ECE">Electronics & Communication</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                        <option value="EE">Electrical Engineering</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" onclick="submitProfileUpdate()"
+                        class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">
+                        Update Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script>
+        // Check Local Storage for profile data or use defaults
+        let profileData = JSON.parse(localStorage.getItem('profileData')) || {
+            name: "John Doe",
+            email: "johndoe@example.com",
+            department: "Computer Science",
+        };
+
+        // Function to display the profile data when the user clicks "View Profile"
+        function viewProfile() {
+            // Update the profile display with the latest data
+            document.getElementById("profile-name").textContent = profileData.name;
+            document.getElementById("profile-email").textContent = profileData.email;
+            document.getElementById("profile-department").textContent = profileData.department;
+
+            // Toggle visibility of the view profile section
+            document.getElementById('view-profile').classList.toggle('hidden');
+            document.getElementById('update-profile').classList.add('hidden');
+        }
+
+        // Function to show the Update Profile form
+        function showUpdateProfileForm() {
+            // Prefill the form with current profile data
+            document.getElementById('name').value = profileData.name;
+            document.getElementById('email').value = profileData.email;
+            document.getElementById('department').value = profileData.department;
+
+            // Show the update profile form
+            document.getElementById('update-profile').classList.remove('hidden');
+            document.getElementById('view-profile').classList.add('hidden');
+        }
+
+        // Function to handle profile updates
+        function submitProfileUpdate() {
+            // Get the updated data from the form
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const department = document.getElementById('department').value;
+
+            if (!name || !email || !department) {
+                alert('Please fill out all fields!');
+                return;
+            }
+
+            // Update the profile data object
+            profileData = { name, email, department };
+
+            // Save the updated profile data to Local Storage
+            localStorage.setItem('profileData', JSON.stringify(profileData));
+
+            alert('Profile Updated Successfully!');
+            // Hide the update form and view profile section after update
+            document.getElementById('update-profile').classList.add('hidden');
+        }
+
+    </script>
+    <!-- Footer -->
+    <footer class="bg-blue-700 text-white p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Online Student Supervision System</p>
+        </div>
+    </footer>
+</body>
+
+
+
+
+</html>
